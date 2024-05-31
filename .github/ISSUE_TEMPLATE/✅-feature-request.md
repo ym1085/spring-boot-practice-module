@@ -7,9 +7,11 @@ assignees: ''
 
 ---
 
-# Description
+## 📢 Description
+
 - 설명 기재
 
-# TODO
+## ✅ TODO
+
 - [ ] todo
 - [ ] todo
