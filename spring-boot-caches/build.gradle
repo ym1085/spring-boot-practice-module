@@ -7,5 +7,7 @@ bootJar {
 }
 
 dependencies {
-
+    // spring boot cache dependencies 추가
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    runtimeOnly 'com.h2database:h2'
 }
