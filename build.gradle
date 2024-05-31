@@ -1,0 +1,74 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
+
+// 빌드 시 spring-boot-practice-module의 .jar 파일 생성하지 않음
+bootJar.enabled = false
+
+// repositories는 각종 의존성(라이브러리)들을 어떤 원격 저장소에서 받을지 지정해야 한다
+// mavenCentral() jcenter() 는 Android Studio의 Gradle 플러그인 용 저장소이다
+// mavenCentral()은 이전부터 많이 사용하는 저장소이지만, 본인이 만든 라이브러리를 업로드 하기 위해서는
+// 많은 과정과 설치가 필요한 문제가 있어 이를 보완해 나온 것이 jcenter()이다
+repositories {
+    mavenCentral()
+}
+
+// complieOnly 설정을 생성한다
+// compileOnly 설정은 라이브러리를 컴파일 시에만 사용하고 런타임 시에는 사용하지 않겠다는 설정
+configurations {
+    compileOnly {
+        // annotationProcessor 설정을 확장
+        // 이 설정은 'annotationProcessor'에 있는 종속성들도 'compileOnly' 설정에 포함되도록 한다
+        extendsFrom annotationProcessor
+    }
+}
+
+// 모든 하위 모듈에 아래 의존성 설정을 적용한다
+subprojects {
+    // 프로젝트가 속한 그룹 + 패키지
+    group = 'com.spring.practice'
+
+    apply plugin: 'java'                            // Java 프로젝트를 위한 기본 기능 추가
+    apply plugin: 'java-library'                    // Java 라이브러리 프로젝트를 위한 추가 기능
+    apply plugin: 'org.springframework.boot'        // 스프링 부트 지원 기능 추가
+    apply plugin: 'io.spring.dependency-management' // 종속성 관리 기능 추가
+
+    // 프로젝트의 현재 버전
+    // SNAPSHOT -> 완전히 개발되지 않은 버전
+    version = '0.0.1-SNAPSHOT'
+
+    // 프로젝트가 Java 11 기능을 사용하여 컴파일 되도록 설정
+    sourceCompatibility = '11'
+
+    // 생성된 클래스 파일이 호환될 Java 버전 지정
+    targetCompatibility = '11'
+
+    // Java 소스 파일의 인코딩 지정
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        //implementation 'mysql:mysql-connector-java'
+        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+        developmentOnly 'org.springframework.boot:spring-boot-devtools'
+        //compileOnly 'mysql:mysql-connector-java'
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
