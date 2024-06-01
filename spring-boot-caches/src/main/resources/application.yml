@@ -13,12 +13,14 @@ spring:
   jpa:
     #generate-ddl: true # DDL 생성 여부(Spring Data JPA의 설정)
     hibernate:
-      ddl-auto: update # DDL 생성 전략(Hibernate의 설정)
+      ddl-auto: none # DDL 생성 전략(Hibernate의 설정)
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect # Hibernate Dialect 설정
         format_sql: true # SQL 출력 포맷 설정
         show_sql: true # SQL 출력 여부
+        hbm2ddl:
+          auto: update
 
 logging:
   level:

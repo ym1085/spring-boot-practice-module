@@ -6,11 +6,15 @@ import com.spring.practice.web.dto.request.MemberRequest;
 import com.spring.practice.web.dto.response.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Transactional(readOnly = true)
@@ -19,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CacheManager cacheManager;
 
     /**
      * @Cacheable
@@ -108,5 +113,23 @@ public class MemberService {
     public Long saveMember(MemberRequest.MemberSave memberSave) {
         Member saveMember = memberRepository.save(memberSave.toEntity());
         return saveMember.getId();
+    }
+
+    /**
+     * 모든 캐시 목록 출력
+     */
+    public void getAllCacheContents() {
+        cacheManager.getCacheNames().forEach(cacheName -> {
+            Cache cache = cacheManager.getCache(cacheName);
+            if (cache != null) {
+                log.info("Cache Name = {}", cacheName);
+                Object nativeCache = cache.getNativeCache();
+                log.info("nativeCache = {}", nativeCache);
+                if (nativeCache instanceof ConcurrentHashMap) {
+                    ConcurrentHashMap<?, ?> cacheMap = (ConcurrentHashMap<?, ?>) nativeCache;
+                    cacheMap.forEach((key, value) -> log.info("cacheMap key = {}, value = {}", key, value));
+                }
+            }
+        });
     }
 }
