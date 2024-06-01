@@ -22,7 +22,7 @@ public class CachingConfig {
     @Bean // spring IoC 컨테이너에 의해 관리가 되어지는 bean 객체로 등록
     public CacheManager cacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
-        cacheManager.setCacheNames(List.of("member-list-caches"));
+        //cacheManager.setCacheNames(List.of("member-list-caches"));
         cacheManager.setCacheNames(List.of("member-id-caches"));
         cacheManager.setAllowNullValues(false);
         return cacheManager;

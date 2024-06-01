@@ -82,4 +82,10 @@ public class CacheRestController {
         if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
         return ResponseEntity.ok(memberService.saveMember(memberSave));
     }
+
+    @GetMapping(value = "/member/management-caches/all")
+    public void getAllCacheContents() {
+        log.info("[Cache] member-list-caches, member-id-caches");
+        memberService.getAllCacheContents();
+    }
 }
