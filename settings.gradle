@@ -1,2 +1,3 @@
 rootProject.name = 'spring-boot-practice-module'
 include 'spring-boot-caches'
+include 'spring-boot-schedule'

@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: spring-boot-schedule
+  h2:
+    console:
+      enabled: true # h2 console \uC0AC\uC6A9\uD560\uC9C0 \uC5EC\uBD80 \uACB0\uC815
+      path: /h2-console # h2 console \uC811\uADFC \uACBD\uB85C
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    #generate-ddl: true # DDL \uC0DD\uC131 \uC5EC\uBD80(Spring Data JPA\uC758 \uC124\uC815)
+    hibernate:
+      ddl-auto: none # DDL \uC0DD\uC131 \uC804\uB7B5(Hibernate\uC758 \uC124\uC815)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect # Hibernate Dialect \uC124\uC815
+        format_sql: true # SQL \uCD9C\uB825 \uD3EC\uB9F7 \uC124\uC815
+        show_sql: true # SQL \uCD9C\uB825 \uC5EC\uBD80
+        hbm2ddl:
+          auto: update
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate:
+        sql: DEBUG
+      jpa: DEBUG
